@@ -1,2 +1,2 @@
 # DatabaseDoodles
-My documented exploration of SQL
+DatabaseDoodles are my documented exploration of SQL.
