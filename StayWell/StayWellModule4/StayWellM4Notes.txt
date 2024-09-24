@@ -1,0 +1,554 @@
+STAYWELL MODULE 4
+-----------------
+
+Database Model: StayWell
+Staywell finds and manages accommodation for owners of student accommodation in the Seattle Area. The company rents out and helps to maintain 1–5-bedroom properties located in two main areas in the city, Columbia City and Georgetown. This is done on behalf of property owners based both in the local area and throughout the United States. Each location is administrated by a different office, StayWell-Columbia City and StayWell-Georgetown.
+
+StayWell wishes to expand its business. The current model relies on advertisements in student and university publications in print and online, but prospective owners and renters need to contact the offices and speak to an administrator on all matters relating to renting of properties. The office organizes maintenance services for a fee, which is also currently done via email or direct communication.
+
+StayWell has decided that the best way to increase efficiency and move toward an e-commerce-based business model is to store all the data about the properties, owners, tenants and services in databases. This will mean that the information can be easily accessed. StayWell hopes that these databases can then be used in future projects such as mobile apps and online booking systems.
+
+The data is split into several tables, shown below:
+
+The OFFICE table shows the office number, office name, address, area, city, state, and ZIP code.
+
+OFFICE table
+
+OFFICE table
+
+StayWell stores information about the owners of each property in the OWNER table. Each owner is identified by a unique owner number that consists of two uppercase letters followed by a three-digit number. For each owner, the table also includes the last name, first name, address, city, state, and ZIP code. Notice the owners are from across the United States. Although some apartments may be owned by a couple or a family, only the primary contact is given.
+
+OWNER table
+
+OWNER table
+
+Each property at each location is identified by a property ID, as seen in the PROPERTY table. Each property also includes the office number that manages the property, address, floor size, the number of bedrooms, the number of floors, monthly rent per property, and the owner number. The property ID is an integer unique for each property.
+
+PROPERTY table
+
+PROPERTY table
+
+The RESIDENTS table includes details about the residents living in each property. The RESIDENTS table includes the first name and last name for each of the residents, along with a resident ID. The PROPERTY_ID is the unique identification number of the property in which they are staying.
+
+RESIDENTS table
+
+RESIDENTS table
+
+The SERVICE_REQUEST table shows requests that residents have put into the offices for maintenance. Each row contains a unique service ID number, the property ID, the category number associated with the type of work, the office managing the property, a description of the request, the current status of the request, the estimated hours to complete the request, the hours spent on the request, and the scheduled service date.
+
+SERVICE_REQUEST table
+
+SERVICE_REQUEST table
+
+The SERVICE_CATEGORY table includes details of these services. The CATEGORY_NUM provides a unique number for the service, and CATEGORY_DESCRIPTION shows what the service is.
+
+SERVICE_CATEGORY table
+
+SERVICE_CATEGORY table
+
+
+
+Task 1: List the owner number, last name, and first name
+ of every property owner.
+
+
+STATEMENT:
+
+SELECT OWNER_NUM, LAST_NAME, FIRST_NAME
+FROM OWNER;
+
+RESULT:
+
+┌───────────┬───────────┬────────────┐
+│ OWNER_NUM │ LAST_NAME │ FIRST_NAME │
+├───────────┼───────────┼────────────┤
+│ AK102     │ Aksoy     │ Ceyda      │
+├───────────┼───────────┼────────────┤
+│ BI109     │ Bianchi   │ Nicole     │
+├───────────┼───────────┼────────────┤
+│ BU106     │ Burke     │ Ernest     │
+├───────────┼───────────┼────────────┤
+│ CO103     │ Cole      │ Meerab     │
+├───────────┼───────────┼────────────┤
+│ JO110     │ Jones     │ Ammarah    │
+├───────────┼───────────┼────────────┤
+│ KO104     │ Kowalczyk │ Jakub      │
+├───────────┼───────────┼────────────┤
+│ LO108     │ Lopez     │ Janine     │
+├───────────┼───────────┼────────────┤
+│ MO100     │ Moore     │ Elle-May   │
+├───────────┼───────────┼────────────┤
+│ PA101     │ Patel     │ Makesh     │
+├───────────┼───────────┼────────────┤
+│ RE107     │ Redman    │ Seth       │
+├───────────┼───────────┼────────────┤
+│ SI105     │ Sims      │ Haydon     │
+└───────────┴───────────┴────────────┘
+
+
+
+Task 2: List the complete PROPERTY table 
+(all rows and all columns).
+
+
+
+
+
+STATEMENT:
+
+SELECT *
+FROM PROPERTY;
+
+RESULT:
+
+┌─────────────┬────────────┬────────────────────────┬────────┬───────┬────────┬──────────────┬───────────┐
+│ PROPERTY_ID │ OFFICE_NUM │ ADDRESS                │ SQR_FT │ BDRMS │ FLOORS │ MONTHLY_RENT │ OWNER_NUM │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 1           │ 1          │ 30 West Thomas Rd.     │ 1600   │ 3     │ 1      │ 1400         │ BU106     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 2           │ 1          │ 782 Queen Ln.          │ 2100   │ 4     │ 2      │ 1900         │ AK102     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 3           │ 1          │ 9800 Sunbeam Ave.      │ 1005   │ 2     │ 1      │ 1200         │ BI109     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 4           │ 1          │ 105 North Illinois Rd. │ 1750   │ 3     │ 1      │ 1650         │ KO104     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 5           │ 1          │ 887 Vine Rd.           │ 1125   │ 2     │ 1      │ 1160         │ SI105     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 6           │ 1          │ 8 Laurel Dr.           │ 2125   │ 4     │ 2      │ 2050         │ MO100     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 7           │ 2          │ 447 Goldfield St.      │ 1675   │ 3     │ 2      │ 1700         │ CO103     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 8           │ 2          │ 594 Leatherwood Dr.    │ 2700   │ 5     │ 2      │ 2750         │ KO104     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 9           │ 2          │ 504 Windsor Ave.       │ 700    │ 2     │ 1      │ 1050         │ PA101     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 10          │ 2          │ 891 Alton Dr.          │ 1300   │ 3     │ 1      │ 1600         │ LO108     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 11          │ 2          │ 9531 Sherwood Rd.      │ 1075   │ 2     │ 1      │ 1100         │ JO110     │
+├─────────────┼────────────┼────────────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 12          │ 2          │ 2 Bow Ridge Ave.       │ 1400   │ 3     │ 2      │ 1700         │ RE107     │
+└─────────────┴────────────┴────────────────────────┴────────┴───────┴────────┴──────────────┴───────────┘
+
+
+
+Task 3: List the last name and first name of every owner who lives in Seattle.
+
+
+
+
+
+STATEMENT:
+
+
+SELECT LAST_NAME, FIRST_NAME
+FROM OWNER
+WHERE CITY = 'Seattle';
+
+
+RESULT:
+
+
+┌───────────┬────────────┐
+│ LAST_NAME │ FIRST_NAME │
+├───────────┼────────────┤
+│ Aksoy     │ Ceyda      │
+├───────────┼────────────┤
+│ Jones     │ Ammarah    │
+├───────────┼────────────┤
+│ Patel     │ Makesh     │
+├───────────┼────────────┤
+│ Redman    │ Seth       │
+└───────────┴────────────┘
+
+
+
+
+Task 4: List the last name and first name of every owner who does not live in Seattle.
+
+
+
+
+
+STATEMENT:
+
+
+SELECT LAST_NAME, FIRST_NAME
+FROM OWNER
+WHERE CITY != 'Seattle';
+
+
+RESULT:
+
+
+┌───────────┬────────────┐
+│ LAST_NAME │ FIRST_NAME │
+├───────────┼────────────┤
+│ Bianchi   │ Nicole     │
+├───────────┼────────────┤
+│ Burke     │ Ernest     │
+├───────────┼────────────┤
+│ Cole      │ Meerab     │
+├───────────┼────────────┤
+│ Kowalczyk │ Jakub      │
+├───────────┼────────────┤
+│ Lopez     │ Janine     │
+├───────────┼────────────┤
+│ Moore     │ Elle-May   │
+├───────────┼────────────┤
+│ Sims      │ Haydon     │
+└───────────┴────────────┘
+
+
+
+
+Task 5: List the OFFICE_NUM as the LOCATION_NUMBER and PROPERTY_ID as the UNIT_NUMBER for every property whose square footage is equal to or less than 1,400 square feet.
+
+
+
+
+
+STATEMENT:
+
+SELECT OFFICE_NUM AS LOCATION_NUMBER, PROPERTY_ID AS UNIT_NUMBER
+FROM PROPERTY
+WHERE SQR_FT <= 1400;
+
+
+
+RESULT:
+
+
+┌─────────────────┬─────────────┐
+│ LOCATION_NUMBER │ UNIT_NUMBER │
+├─────────────────┼─────────────┤
+│ 1               │ 3           │
+├─────────────────┼─────────────┤
+│ 1               │ 5           │
+├─────────────────┼─────────────┤
+│ 2               │ 9           │
+├─────────────────┼─────────────┤
+│ 2               │ 10          │
+├─────────────────┼─────────────┤
+│ 2               │ 11          │
+├─────────────────┼─────────────┤
+│ 2               │ 12          │
+└─────────────────┴─────────────┘
+
+
+
+
+Task 6: List the office number and address for every property with three bedrooms.
+
+
+
+
+
+STATEMENT:
+
+SELECT OFFICE_NUM, ADDRESS
+FROM PROPERTY
+WHERE BDRMS = 3;
+
+
+
+RESULT:
+
+
+┌────────────┬────────────────────────┐
+│ OFFICE_NUM │ ADDRESS                │
+├────────────┼────────────────────────┤
+│ 1          │ 30 West Thomas Rd.     │
+├────────────┼────────────────────────┤
+│ 1          │ 105 North Illinois Rd. │
+├────────────┼────────────────────────┤
+│ 2          │ 447 Goldfield St.      │
+├────────────┼────────────────────────┤
+│ 2          │ 891 Alton Dr.          │
+├────────────┼────────────────────────┤
+│ 2          │ 2 Bow Ridge Ave.       │
+└────────────┴────────────────────────┘
+
+
+
+
+Task 7: List the property for every property with two bedrooms that is managed by the StayWell-Georgetown office(OFFICE_NUM = 2).
+
+
+
+
+
+STATEMENT:
+
+SELECT *
+FROM PROPERTY
+WHERE OFFICE_NUM = 2 AND BDRMS = 2;
+
+RESULT:
+
+
+┌─────────────┬────────────┬───────────────────┬────────┬───────┬────────┬──────────────┬───────────┐
+│ PROPERTY_ID │ OFFICE_NUM │ ADDRESS           │ SQR_FT │ BDRMS │ FLOORS │ MONTHLY_RENT │ OWNER_NUM │
+├─────────────┼────────────┼───────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 9           │ 2          │ 504 Windsor Ave.  │ 700    │ 2     │ 1      │ 1050         │ PA101     │
+├─────────────┼────────────┼───────────────────┼────────┼───────┼────────┼──────────────┼───────────┤
+│ 11          │ 2          │ 9531 Sherwood Rd. │ 1075   │ 2     │ 1      │ 1100         │ JO110     │
+└─────────────┴────────────┴───────────────────┴────────┴───────┴────────┴──────────────┴───────────┘
+
+
+
+
+Task 8: List the property ID for every property with a monthly rent that is between $1,350 and $1,750.
+
+
+
+
+
+STATEMENT:
+
+
+SELECT PROPERTY_ID
+FROM PROPERTY
+WHERE MONTHLY_RENT BETWEEN 1350 AND 1750;
+
+
+RESULT:
+
+
+┌─────────────┐
+│ PROPERTY_ID │
+├─────────────┤
+│ 1           │
+├─────────────┤
+│ 4           │
+├─────────────┤
+│ 7           │
+├─────────────┤
+│ 10          │
+├─────────────┤
+│ 12          │
+└─────────────┘
+
+
+
+
+Task 9: List the property ID for every property managed by the StayWell-Columbia City(OFFICE_NUM = 1) office whose monthly rent is less than $1,500
+
+
+
+
+
+STATEMENT:
+
+
+SELECT PROPERTY_ID
+FROM PROPERTY
+WHERE OFFICE_NUM = 1 AND MONTHLY_RENT < 1500;
+
+
+RESULT:
+
+
+┌─────────────┐
+│ PROPERTY_ID │
+├─────────────┤
+│ 1           │
+├─────────────┤
+│ 3           │
+├─────────────┤
+│ 5           │
+└─────────────┘
+
+
+
+
+Task 10: Labor is billed at the rate of $35 per hour. List the property ID, category number, estimated hours, and estimated labor cost for every service request. To obtain the estimated labor cost, multiply the estimated hours by 35. Use the column name ESTIMATED_COST for the estimated labor cost.
+
+
+
+STATEMENT:
+
+
+SELECT PROPERTY_ID, CATEGORY_NUMBER, EST_HOURS, (EST_HOURS * 35) AS ESTIMATED_COST
+FROM SERVICE_REQUEST;
+
+
+RESULT:
+
+
+┌─────────────┬─────────────────┬───────────┬────────────────┐
+│ PROPERTY_ID │ CATEGORY_NUMBER │ EST_HOURS │ ESTIMATED_COST │
+├─────────────┼─────────────────┼───────────┼────────────────┤
+│ 11          │ 2               │ 2         │ 70             │
+├─────────────┼─────────────────┼───────────┼────────────────┤
+│ 1           │ 4               │ 1         │ 35             │
+├─────────────┼─────────────────┼───────────┼────────────────┤
+│ 6           │ 5               │ 3         │ 105            │
+├─────────────┼─────────────────┼───────────┼────────────────┤
+│ 2           │ 4               │ 1         │ 35             │
+├─────────────┼─────────────────┼───────────┼────────────────┤
+│ 8           │ 3               │ 10        │ 350            │
+├─────────────┼─────────────────┼───────────┼────────────────┤
+│ 4           │ 1               │ 4         │ 140            │
+├─────────────┼─────────────────┼───────────┼────────────────┤
+│ 2           │ 2               │ 1         │ 35             │
+├─────────────┼─────────────────┼───────────┼────────────────┤
+│ 9           │ 1               │ 6         │ 210            │
+├─────────────┼─────────────────┼───────────┼────────────────┤
+│ 12          │ 6               │ 2         │ 70             │
+└─────────────┴─────────────────┴───────────┴────────────────┘
+
+
+
+
+Task 11: List the owner number and last name for all owners who live in Nevada (NV), Oregon (OR), or Idaho (ID).
+
+
+
+
+
+STATEMENT:
+
+SELECT OWNER_NUM, LAST_NAME
+FROM OWNER
+WHERE STATE IN ('NV', 'OR', 'ID');
+
+
+RESULT:
+
+
+┌───────────┬───────────┐
+│ OWNER_NUM │ LAST_NAME │
+├───────────┼───────────┤
+│ BU106     │ Burke     │
+├───────────┼───────────┤
+│ MO100     │ Moore     │
+├───────────┼───────────┤
+│ SI105     │ Sims      │
+└───────────┴───────────┘
+
+
+
+
+Task 12: List the office number, property ID, square footage, and monthly rent for all properties. Sort the results by monthly rent within the square footage.
+
+
+
+
+
+STATEMENT:
+
+SELECT OFFICE_NUM, PROPERTY_ID, SQR_FT, MONTHLY_RENT
+FROM PROPERTY
+ORDER BY SQR_FT, MONTHLY_RENT;
+
+RESULT:
+
+
+┌────────────┬─────────────┬────────┬──────────────┐
+│ OFFICE_NUM │ PROPERTY_ID │ SQR_FT │ MONTHLY_RENT │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 2          │ 9           │ 700    │ 1050         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 1          │ 3           │ 1005   │ 1200         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 2          │ 11          │ 1075   │ 1100         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 1          │ 5           │ 1125   │ 1160         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 2          │ 10          │ 1300   │ 1600         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 2          │ 12          │ 1400   │ 1700         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 1          │ 1           │ 1600   │ 1400         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 2          │ 7           │ 1675   │ 1700         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 1          │ 4           │ 1750   │ 1650         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 1          │ 2           │ 2100   │ 1900         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 1          │ 6           │ 2125   │ 2050         │
+├────────────┼─────────────┼────────┼──────────────┤
+│ 2          │ 8           │ 2700   │ 2750         │
+└────────────┴─────────────┴────────┴──────────────┘
+
+
+
+
+Task 13: How many three-bedroom properties are managed by each office? Use OFFICE_NUM and COUNT(*) as column headers.
+
+
+
+
+
+STATEMENT:
+
+SELECT OFFICE_NUM, COUNT(*)
+FROM PROPERTY
+WHERE BDRMS = 3
+GROUP BY OFFICE_NUM;
+
+
+
+RESULT:
+
+
+┌────────────┬──────────┐
+│ OFFICE_NUM │ COUNT(*) │
+├────────────┼──────────┤
+│ 1          │ 2        │
+├────────────┼──────────┤
+│ 2          │ 3        │
+└────────────┴──────────┘
+
+
+
+
+Task 14: Calculate the total value of monthly rents for all properties, display this value in a column labeled TOTAL_VALUE.
+
+
+
+
+
+STATEMENT:
+
+SELECT SUM(MONTHLY_RENT) AS TOTAL_VALUE
+FROM PROPERTY;
+
+
+
+RESULT:
+
+
+┌─────────────┐
+│ TOTAL_VALUE │
+├─────────────┤
+│ 19260       │
+└─────────────┘
+
+
+
+
+Task 15: Write a query using a WHERE clause to find all service requests with the word “heating” anywhere in the description field.
+
+
+
+STATEMENT:
+
+SELECT *
+FROM SERVICE_REQUEST
+WHERE DESCRIPTION LIKE '%heating%';
+
+
+
+RESULT:
+
+┌────────────┬─────────────┬─────────────────┬───────────┬─────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────┬───────────┬─────────────┬───────────────────┐
+│ SERVICE_ID │ PROPERTY_ID │ CATEGORY_NUMBER │ OFFICE_ID │ DESCRIPTION                                             │ STATUS                                                                           │ EST_HOURS │ SPENT_HOURS │ NEXT_SERVICE_DATE │
+├────────────┼─────────────┼─────────────────┼───────────┼─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┼───────────┼─────────────┼───────────────────┤
+│ 1          │ 11          │ 2               │ 2         │ The second bedroom upstairs is not heating up at night. │ Problem has been confirmed. central heating engineer has been scheduled.         │ 2         │ 1           │ Fri Nov 01 2019 … │
+├────────────┼─────────────┼─────────────────┼───────────┼─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────┼───────────┼─────────────┼───────────────────┤
+│ 7          │ 2           │ 2               │ 1         │ Heating unit in the entrance smells like its burning.  │ Service rep confirmed the issue to be dust in the heating unit. To be cleaned.   │ 1         │ 0           │ Wed Oct 09 2019 … │
+└────────────┴─────────────┴─────────────────┴───────────┴─────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────────────────┴───────────┴─────────────┴───────────────────┘
+
+
