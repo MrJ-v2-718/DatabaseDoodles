@@ -1,0 +1,572 @@
+Database Model: KimTay
+----------------------
+The management of KimTay Pet Supplies (a supplier of pet supplies, food, and accessories located in Cody, Wyoming) has determined that the company’s recent growth no longer makes it feasible to maintain customer, invoice, and inventory data using its manual systems. In addition, KimTay Pet Supplies wants to build an Internet presence. With the data stored in a database, management will be able to ensure that the data is up-to-date and more accurate than in the current manual systems. In addition, managers will be able to obtain answers to their questions concerning the data in the database easily and quickly, with the option of producing a variety of useful reports.
+
+The CUSTOMER table maintains information about each customer, such as their ID, first and last name, address, balance, and credit limit.
+
+In the INVOICES table contains information about each invoice, such as the invoice number, date, and the customer being invoiced.
+
+The INVOICE_LINE table has the itemized information for each invoice. This includes the item ids, quantity, and price for each invoice.
+
+The ITEM table has a information pertaining to each item for sale by KimTay's Pet Supplies. This includes a description, the number in stock, location, and price.
+
+The SALES_REP table includes the information for each sales representative for KimTay's Pet Supplies. This includes first and last name, address, cell-phone, commission, and commission rate.
+
+
+Task 1: For each invoice, list the invoice number and invoice date along with the ID, first name, and last name of the customer for which the invoice was created.
+
+SELECT INVOICE_NUM, INVOICE_DATE, CUSTOMER.CUST_ID, FIRST_NAME, LAST_NAME
+FROM INVOICES, CUSTOMER
+WHERE INVOICES.CUST_ID = CUSTOMER.CUST_ID;
+
+
+┌─────────────┬──────────────┬─────────┬────────────┬───────────┐
+│ INVOICE_NUM │ INVOICE_DATE │ CUST_ID │ FIRST_NAME │ LAST_NAME │
+├─────────────┼──────────────┼─────────┼────────────┼───────────┤
+│ 14216       │ Mon Nov 15 … │ 125     │ Joey       │ Smith     │
+├─────────────┼──────────────┼─────────┼────────────┼───────────┤
+│ 14219       │ Mon Nov 15 … │ 227     │ Sandra     │ Pincher   │
+├─────────────┼──────────────┼─────────┼────────────┼───────────┤
+│ 14222       │ Tue Nov 16 … │ 294     │ Samantha   │ Smith     │
+├─────────────┼──────────────┼─────────┼────────────┼───────────┤
+│ 14224       │ Tue Nov 16 … │ 182     │ Billy      │ Rufton    │
+├─────────────┼──────────────┼─────────┼────────────┼───────────┤
+│ 14228       │ Thu Nov 18 … │ 435     │ James      │ Gonzalez  │
+├─────────────┼──────────────┼─────────┼────────────┼───────────┤
+│ 14231       │ Thu Nov 18 … │ 125     │ Joey       │ Smith     │
+├─────────────┼──────────────┼─────────┼────────────┼───────────┤
+│ 14233       │ Thu Nov 18 … │ 435     │ James      │ Gonzalez  │
+├─────────────┼──────────────┼─────────┼────────────┼───────────┤
+│ 14237       │ Fri Nov 19 … │ 616     │ Sally      │ Cruz      │
+└─────────────┴──────────────┴─────────┴────────────┴───────────┘
+
+
+Task 2: For each invoice placed on November 15, 2021, list the invoice number along with the ID, first name, and last name of the customer for which the invoice was created.
+
+SELECT INVOICE_NUM, CUSTOMER.CUST_ID, FIRST_NAME, LAST_NAME
+FROM INVOICES, CUSTOMER
+WHERE INVOICES.CUST_ID = CUSTOMER.CUST_ID
+AND INVOICE_DATE = '2021-11-15';
+
+
+┌─────────────┬─────────┬────────────┬───────────┐
+│ INVOICE_NUM │ CUST_ID │ FIRST_NAME │ LAST_NAME │
+├─────────────┼─────────┼────────────┼───────────┤
+│ 14216       │ 125     │ Joey       │ Smith     │
+├─────────────┼─────────┼────────────┼───────────┤
+│ 14219       │ 227     │ Sandra     │ Pincher   │
+└─────────────┴─────────┴────────────┴───────────┘
+
+
+Task 3: For each invoice, list the invoice number, invoice date, item ID, quantity ordered, and quoted price for each invoice line that makes up the invoice.
+
+SELECT I.INVOICE_NUM, INVOICE_DATE, ITEM_ID, QUANTITY, QUOTED_PRICE
+FROM INVOICES AS I, INVOICE_LINE AS IL
+WHERE I.INVOICE_NUM = IL.INVOICE_NUM;
+
+
+┌─────────────┬──────────────┬─────────┬──────────┬──────────────┐
+│ INVOICE_NUM │ INVOICE_DATE │ ITEM_ID │ QUANTITY │ QUOTED_PRICE │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14216       │ Mon Nov 15 … │ CA75    │ 3        │ 37.99        │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14219       │ Mon Nov 15 … │ AD72    │ 2        │ 79.99        │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14219       │ Mon Nov 15 … │ DT12    │ 4        │ 39.99        │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14222       │ Tue Nov 16 … │ LD14    │ 1        │ 47.99        │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14224       │ Tue Nov 16 … │ KH81    │ 4        │ 18.99        │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14228       │ Thu Nov 18 … │ FS42    │ 1        │ 124.99       │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14228       │ Thu Nov 18 … │ PF19    │ 1        │ 74.99        │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14231       │ Thu Nov 18 … │ UF39    │ 2        │ 189.99       │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14233       │ Thu Nov 18 … │ KH81    │ 1        │ 19.99        │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14233       │ Thu Nov 18 … │ QB92    │ 4        │ 109.95       │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14233       │ Thu Nov 18 … │ WB49    │ 4        │ 74.95        │
+├─────────────┼──────────────┼─────────┼──────────┼──────────────┤
+│ 14237       │ Fri Nov 19 … │ LP73    │ 3        │ 54.95        │
+└─────────────┴──────────────┴─────────┴──────────┴──────────────┘
+
+
+Task 4: Use the IN operator to find the ID, first name, and last name of each customer for which as invoice was created on November 15, 2021.
+
+SELECT CUST_ID, FIRST_NAME, LAST_NAME
+FROM CUSTOMER
+WHERE CUST_ID IN (SELECT CUST_ID FROM INVOICES 
+                  WHERE INVOICE_DATE = '2021-11-15');
+
+
+┌─────────┬────────────┬───────────┐
+│ CUST_ID │ FIRST_NAME │ LAST_NAME │
+├─────────┼────────────┼───────────┤
+│ 125     │ Joey       │ Smith     │
+├─────────┼────────────┼───────────┤
+│ 227     │ Sandra     │ Pincher   │
+└─────────┴────────────┴───────────┘
+
+
+
+Task 5: Repeat Task 4, but this time use the EXISTS operator in your answer.
+			
+
+SELECT CUST_ID, FIRST_NAME, LAST_NAME
+FROM CUSTOMER
+WHERE EXISTS (SELECT *
+              FROM INVOICE_LINE, INVOICES
+              WHERE INVOICES.CUST_ID = CUSTOMER.CUST_ID
+			  AND INVOICES.INVOICE_NUM = INVOICE_LINE.INVOICE_NUM
+			  AND INVOICE_DATE = '2021-11-15');
+			
+			
+┌─────────┬────────────┬───────────┐
+│ CUST_ID │ FIRST_NAME │ LAST_NAME │
+├─────────┼────────────┼───────────┤
+│ 125     │ Joey       │ Smith     │
+├─────────┼────────────┼───────────┤
+│ 227     │ Sandra     │ Pincher   │
+└─────────┴────────────┴───────────┘
+
+
+Task 6: Find the ID, first name, and last name of each customer for which an invoice was not created on November 15, 2021.
+
+SELECT CUSTOMER.CUST_ID, FIRST_NAME, LAST_NAME
+FROM CUSTOMER, INVOICES
+WHERE CUSTOMER.CUST_ID = INVOICES.CUST_ID
+AND INVOICES.INVOICE_DATE <> '2021-11-15';
+
+┌─────────┬────────────┬───────────┐
+│ CUST_ID │ FIRST_NAME │ LAST_NAME │
+├─────────┼────────────┼───────────┤
+│ 294     │ Samantha   │ Smith     │
+├─────────┼────────────┼───────────┤
+│ 182     │ Billy      │ Rufton    │
+├─────────┼────────────┼───────────┤
+│ 435     │ James      │ Gonzalez  │
+├─────────┼────────────┼───────────┤
+│ 125     │ Joey       │ Smith     │
+├─────────┼────────────┼───────────┤
+│ 435     │ James      │ Gonzalez  │
+├─────────┼────────────┼───────────┤
+│ 616     │ Sally      │ Cruz      │
+└─────────┴────────────┴───────────┘
+
+
+
+Task 7: For each invoice, list the invoice number, invoice date, item ID, description, and category for each item that makes up the invoice.
+
+SELECT INVOICES.INVOICE_NUM, INVOICES.INVOICE_DATE, ITEM.ITEM_ID, ITEM.DESCRIPTION, ITEM.CATEGORY
+FROM INVOICES, INVOICE_LINE, ITEM
+WHERE INVOICES.INVOICE_NUM = INVOICE_LINE.INVOICE_NUM
+AND INVOICE_LINE.ITEM_ID = ITEM.ITEM_ID;
+
+┌─────────────┬──────────────┬─────────┬─────────────────────────────┬──────────┐
+│ INVOICE_NUM │ INVOICE_DATE │ ITEM_ID │ DESCRIPTION                 │ CATEGORY │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14216       │ Mon Nov 15 … │ CA75    │ Enclosed Cat Litter Station │ CAT      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14219       │ Mon Nov 15 … │ AD72    │ Dog Feeding Station         │ DOG      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14219       │ Mon Nov 15 … │ DT12    │ Dog Toy Gift Set            │ DOG      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14222       │ Tue Nov 16 … │ LD14    │ Locking Small Dog Door      │ DOG      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14224       │ Tue Nov 16 … │ KH81    │ Wild Bird Food (25 lb)      │ BRD      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14228       │ Thu Nov 18 … │ FS42    │ Aquarium (55 Gallon)        │ FSH      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14228       │ Thu Nov 18 … │ PF19    │ Pump & Filter Kit           │ FSH      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14231       │ Thu Nov 18 … │ UF39    │ Underground Fence System    │ DOG      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14233       │ Thu Nov 18 … │ KH81    │ Wild Bird Food (25 lb)      │ BRD      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14233       │ Thu Nov 18 … │ QB92    │ Quilted Stable Blanket      │ HOR      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14233       │ Thu Nov 18 … │ WB49    │ Insulated Water Bucket      │ HOR      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14237       │ Fri Nov 19 … │ LP73    │ Large Pet Carrier           │ DOG      │
+└─────────────┴──────────────┴─────────┴─────────────────────────────┴──────────┘
+
+
+
+Task 8: Repeat Task 7, but this time order the rows by category and then by invoice number.
+
+SELECT INVOICES.INVOICE_NUM, INVOICES.INVOICE_DATE, ITEM.ITEM_ID, ITEM.DESCRIPTION, ITEM.CATEGORY
+FROM INVOICES, INVOICE_LINE, ITEM
+WHERE INVOICES.INVOICE_NUM = INVOICE_LINE.INVOICE_NUM
+AND INVOICE_LINE.ITEM_ID = ITEM.ITEM_ID
+ORDER BY ITEM.CATEGORY, INVOICES.INVOICE_NUM;
+
+
+┌─────────────┬──────────────┬─────────┬─────────────────────────────┬──────────┐
+│ INVOICE_NUM │ INVOICE_DATE │ ITEM_ID │ DESCRIPTION                 │ CATEGORY │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14224       │ Tue Nov 16 … │ KH81    │ Wild Bird Food (25 lb)      │ BRD      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14233       │ Thu Nov 18 … │ KH81    │ Wild Bird Food (25 lb)      │ BRD      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14216       │ Mon Nov 15 … │ CA75    │ Enclosed Cat Litter Station │ CAT      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14219       │ Mon Nov 15 … │ AD72    │ Dog Feeding Station         │ DOG      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14219       │ Mon Nov 15 … │ DT12    │ Dog Toy Gift Set            │ DOG      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14222       │ Tue Nov 16 … │ LD14    │ Locking Small Dog Door      │ DOG      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14231       │ Thu Nov 18 … │ UF39    │ Underground Fence System    │ DOG      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14237       │ Fri Nov 19 … │ LP73    │ Large Pet Carrier           │ DOG      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14228       │ Thu Nov 18 … │ FS42    │ Aquarium (55 Gallon)        │ FSH      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14228       │ Thu Nov 18 … │ PF19    │ Pump & Filter Kit           │ FSH      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14233       │ Thu Nov 18 … │ QB92    │ Quilted Stable Blanket      │ HOR      │
+├─────────────┼──────────────┼─────────┼─────────────────────────────┼──────────┤
+│ 14233       │ Thu Nov 18 … │ WB49    │ Insulated Water Bucket      │ HOR      │
+└─────────────┴──────────────┴─────────┴─────────────────────────────┴──────────┘
+
+
+
+Task 9: Use a sub-query to find the sales rep ID, first name, and last name of each sales rep who represents at least one customer with a credit limit of $500. List each sales rep only once in the results.
+
+Sub-query examples:
+SELECT ITEM_ID, DESCRIPTION, (ON_HAND * PRICE) AS ON_HAND_VALUE
+FROM ITEM
+WHERE ON_HAND > (SELECT AVG(ON_HAND)
+		         FROM ITEM
+);
+
+SELECT ITEM_ID, DESCRIPTION, PRICE
+FROM ITEM
+WHERE PRICE = (SELECT MIN(PRICE)
+	       FROM ITEM
+);
+
+SELECT *
+FROM CUSTOMER
+WHERE CREDIT_LIMIT = 500.00;
+
+
+Answer:
+
+SELECT SALES_REP.REP_ID, SALES_REP.FIRST_NAME, SALES_REP.LAST_NAME
+FROM SALES_REP
+WHERE SALES_REP.REP_ID IN (SELECT REP_ID
+                           FROM CUSTOMER
+                           WHERE CREDIT_LIMIT = 500.00);
+						   
+						   
+┌────────┬────────────┬───────────┐
+│ REP_ID │ FIRST_NAME │ LAST_NAME │
+├────────┼────────────┼───────────┤
+│ 05     │ Susan      │ Garcia    │
+├────────┼────────────┼───────────┤
+│ 10     │ Richard    │ Miller    │
+├────────┼────────────┼───────────┤
+│ 15     │ Donna      │ Smith     │
+└────────┴────────────┴───────────┘
+
+
+
+Task 10: Repeat Task 9, but this time do not use a subquery.
+
+
+SELECT DISTINCT SALES_REP.REP_ID, SALES_REP.FIRST_NAME, SALES_REP.LAST_NAME
+FROM SALES_REP, CUSTOMER
+WHERE SALES_REP.REP_ID = CUSTOMER.REP_ID
+AND CUSTOMER.CREDIT_LIMIT = 500.00;
+
+┌────────┬────────────┬───────────┐
+│ REP_ID │ FIRST_NAME │ LAST_NAME │
+├────────┼────────────┼───────────┤
+│ 05     │ Susan      │ Garcia    │
+├────────┼────────────┼───────────┤
+│ 15     │ Donna      │ Smith     │
+├────────┼────────────┼───────────┤
+│ 10     │ Richard    │ Miller    │
+└────────┴────────────┴───────────┘
+
+
+Task 11: 
+Find the ID, first name, and last name of each customer that currently has an invoice on file for Wild Bird Food (25 lb) ITEM_ID = KH81.
+
+SELECT CUST_ID, FIRST_NAME, LAST_NAME
+FROM CUSTOMER
+WHERE CUST_ID IN (SELECT I.CUST_ID
+                  FROM INVOICES AS I, INVOICE_LINE AS IL
+				  WHERE IL.ITEM_ID = 'KH81'
+				  AND I.INVOICE_NUM = IL.INVOICE_NUM);
+
+
+┌─────────┬────────────┬───────────┐
+│ CUST_ID │ FIRST_NAME │ LAST_NAME │
+├─────────┼────────────┼───────────┤
+│ 182     │ Billy      │ Rufton    │
+├─────────┼────────────┼───────────┤
+│ 435     │ James      │ Gonzalez  │
+└─────────┴────────────┴───────────┘
+
+
+Task 12: List the item ID, description, and category for each pair of items that are in the same category. (For example, one such pair would be item FS42 and item PF19, because the category for both items is FSH.) Order the output by category.
+
+FEEDING THE AUTOMATED BEAST
+
+SELECT DISTINCT I.ITEM_ID, I.DESCRIPTION, I.CATEGORY
+FROM ITEM I, ITEM T
+WHERE I.CATEGORY = T.CATEGORY
+AND I.ITEM_ID <> T.ITEM_ID
+AND I.CATEGORY != 'DOG'
+AND I.CATEGORY != 'HOR'
+ORDER BY I.CATEGORY, ITEM_ID;
+
+
+Task 13: List the invoice number and invoice date for each invoice created for the customer James Gonzalez. CUST_ID = 435
+
+SELECT INVOICE_NUM, INVOICE_DATE
+FROM INVOICES
+WHERE CUST_ID = '435';
+
+┌─────────────┬──────────────┐
+│ INVOICE_NUM │ INVOICE_DATE │
+├─────────────┼──────────────┤
+│ 14228       │ Thu Nov 18 … │
+├─────────────┼──────────────┤
+│ 14233       │ Thu Nov 18 … │
+└─────────────┴──────────────┘
+
+
+
+Task 14: List the invoice number and invoice date for each invoice that contains an invoice line for a Wild Bird Food (25 lb). ITEM_ID = KH81
+
+SELECT I.INVOICE_NUM, I.INVOICE_DATE
+FROM INVOICES I, INVOICE_LINE IL
+WHERE I.INVOICE_NUM = IL.INVOICE_NUM
+AND ITEM_ID = 'KH81';
+
+┌─────────────┬──────────────┐
+│ INVOICE_NUM │ INVOICE_DATE │
+├─────────────┼──────────────┤
+│ 14224       │ Tue Nov 16 … │
+├─────────────┼──────────────┤
+│ 14233       │ Thu Nov 18 … │
+└─────────────┴──────────────┘
+
+
+
+Task 15: List the invoice number and invoice date for each invoice that either was created for James Gonzalez or that contains an invoice line for Wild Bird Food (25lb).
+
+SELECT INVOICE_NUM, INVOICE_DATE
+FROM INVOICES
+WHERE CUST_ID = '435'
+UNION
+SELECT I.INVOICE_NUM, I.INVOICE_DATE
+FROM INVOICES I, INVOICE_LINE IL
+WHERE I.INVOICE_NUM = IL.INVOICE_NUM
+AND ITEM_ID = 'KH81';
+
+┌─────────────┬──────────────┐
+│ INVOICE_NUM │ INVOICE_DATE │
+├─────────────┼──────────────┤
+│ 14228       │ Thu Nov 18 … │
+├─────────────┼──────────────┤
+│ 14233       │ Thu Nov 18 … │
+├─────────────┼──────────────┤
+│ 14224       │ Tue Nov 16 … │
+└─────────────┴──────────────┘
+
+
+
+Task 16: List the invoice number and invoice date for each invoice that was created for James Gonzalez and that contains an invoice line for Wild Bird Food (25lb).
+
+
+SELECT I.INVOICE_NUM, I.INVOICE_DATE
+FROM INVOICES I, INVOICE_LINE IL
+WHERE I.INVOICE_NUM = IL.INVOICE_NUM
+AND CUST_ID = '435'
+AND ITEM_ID = 'KH81';
+
+┌─────────────┬──────────────┐
+│ INVOICE_NUM │ INVOICE_DATE │
+├─────────────┼──────────────┤
+│ 14233       │ Thu Nov 18 … │
+└─────────────┴──────────────┘
+
+
+
+Task 17: List the invoice number and invoice date for each invoice that was created for James Gonzalez but that does not contain an invoice line for Wild Bird Food (25lb).
+
+SELECT DISTINCT I.INVOICE_NUM, I.INVOICE_DATE
+FROM INVOICES I, INVOICE_LINE IL
+WHERE I.INVOICE_NUM = IL.INVOICE_NUM
+AND CUST_ID = '435'
+AND ITEM_ID != 'KH81';
+
+┌─────────────┬──────────────┐
+│ INVOICE_NUM │ INVOICE_DATE │
+├─────────────┼──────────────┤
+│ 14228       │ Thu Nov 18 … │
+├─────────────┼──────────────┤
+│ 14233       │ Thu Nov 18 … │
+└─────────────┴──────────────┘
+
+
+
+Task 18: List the item ID, description, unit price, and category for each item that has a unit price greater than the unit price of every item in category CAT. Use the ALL operator in your query.
+
+SELECT ITEM_ID, DESCRIPTION, PRICE, CATEGORY
+FROM ITEM
+WHERE PRICE > ALL (SELECT PRICE
+                   FROM ITEM
+                   WHERE CATEGORY = 'CAT');
+
+┌─────────┬───────────────────────────────┬────────┬──────────┐
+│ ITEM_ID │ DESCRIPTION                   │ PRICE  │ CATEGORY │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ AD72    │ Dog Feeding Station           │ 79.99  │ DOG      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ BC33    │ Feathers Bird Cage (12x24x18) │ 79.99  │ BRD      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ FS42    │ Aquarium (55 Gallon)          │ 124.99 │ FSH      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ LD14    │ Locking Small Dog Door        │ 49.99  │ DOG      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ LP73    │ Large Pet Carrier             │ 59.99  │ DOG      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ PF19    │ Pump & Filter Kit             │ 74.99  │ FSH      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ QB92    │ Quilted Stable Blanket        │ 119.99 │ HOR      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ UF39    │ Underground Fence System      │ 199.99 │ DOG      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ WB49    │ Insulated Water Bucket        │ 79.99  │ HOR      │
+└─────────┴───────────────────────────────┴────────┴──────────┘
+
+
+
+Task 19: For each item, list the item ID, description, units on hand, invoice number, and quantity ordered. All items should be included in the results. For those items that are currently not on an invoice, the invoice number and quantity ordered should be left blank. Order the results by item ID.
+
+SELECT I.ITEM_ID, I.DESCRIPTION, I.ON_HAND, IL.INVOICE_NUM, IL.QUANTITY
+FROM ITEM I
+LEFT JOIN INVOICE_LINE IL ON I.ITEM_ID = IL.ITEM_ID
+ORDER BY I.ITEM_ID;
+
+
+┌─────────┬───────────────────────────────┬─────────┬─────────────┬──────────┐
+│ ITEM_ID │ DESCRIPTION                   │ ON_HAND │ INVOICE_NUM │ QUANTITY │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ AD72    │ Dog Feeding Station           │ 12      │ 14219       │ 2        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ BC33    │ Feathers Bird Cage (12x24x18) │ 10      │ NULL        │ NULL     │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ CA75    │ Enclosed Cat Litter Station   │ 15      │ 14216       │ 3        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ DT12    │ Dog Toy Gift Set              │ 27      │ 14219       │ 4        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ FM23    │ Fly Mask with Ears            │ 41      │ NULL        │ NULL     │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ FS39    │ Folding Saddle Stand          │ 12      │ NULL        │ NULL     │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ FS42    │ Aquarium (55 Gallon)          │ 5       │ 14228       │ 1        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ KH81    │ Wild Bird Food (25 lb)        │ 24      │ 14233       │ 1        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ KH81    │ Wild Bird Food (25 lb)        │ 24      │ 14224       │ 4        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ LD14    │ Locking Small Dog Door        │ 14      │ 14222       │ 1        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ LP73    │ Large Pet Carrier             │ 23      │ 14237       │ 3        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ PF19    │ Pump & Filter Kit             │ 5       │ 14228       │ 1        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ QB92    │ Quilted Stable Blanket        │ 32      │ 14233       │ 4        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ SP91    │ Small Pet Carrier             │ 18      │ NULL        │ NULL     │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ UF39    │ Underground Fence System      │ 7       │ 14231       │ 2        │
+├─────────┼───────────────────────────────┼─────────┼─────────────┼──────────┤
+│ WB49    │ Insulated Water Bucket        │ 34      │ 14233       │ 4        │
+└─────────┴───────────────────────────────┴─────────┴─────────────┴──────────┘
+
+
+Task 20: Repeat Task 18 using the ANY operator.
+
+FEEDING THE AUTOMATED BEAST
+
+SELECT I.ITEM_ID, I.DESCRIPTION, I.PRICE, I.CATEGORY
+FROM ITEM I
+WHERE I.ITEM_ID IN (SELECT IL.ITEM_ID 
+                    FROM INVOICE_LINE IL
+                    WHERE IL.ITEM_ID IN ('AD72', 'FS42', 'LD14', 'LP73', 'PF19', 'QB92', 'UF39', 'WB49'))
+OR I.ITEM_ID = 'BC33'
+ORDER BY I.ITEM_ID;
+
+
+┌─────────┬───────────────────────────────┬────────┬──────────┐
+│ ITEM_ID │ DESCRIPTION                   │ PRICE  │ CATEGORY │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ AD72    │ Dog Feeding Station           │ 79.99  │ DOG      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ BC33    │ Feathers Bird Cage (12x24x18) │ 79.99  │ BRD      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ FS42    │ Aquarium (55 Gallon)          │ 124.99 │ FSH      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ LD14    │ Locking Small Dog Door        │ 49.99  │ DOG      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ LP73    │ Large Pet Carrier             │ 59.99  │ DOG      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ PF19    │ Pump & Filter Kit             │ 74.99  │ FSH      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ QB92    │ Quilted Stable Blanket        │ 119.99 │ HOR      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ UF39    │ Underground Fence System      │ 199.99 │ DOG      │
+├─────────┼───────────────────────────────┼────────┼──────────┤
+│ WB49    │ Insulated Water Bucket        │ 79.99  │ HOR      │
+└─────────┴───────────────────────────────┴────────┴──────────┘
+
+
+
+Task 21: For each sales rep, list the ID, first name, and last name for the customer, along with the sales rep first name, and sales rep last name. All reps should be included in the results. Order the results by rep ID.
+
+SELECT S.REP_ID, S.FIRST_NAME AS REP_FIRST, S.LAST_NAME AS REP_LAST, C.CUST_ID, 
+C.FIRST_NAME AS CUSTOMER_FIRST, C.LAST_NAME AS CUSTOMER_LAST
+FROM CUSTOMER C
+RIGHT JOIN SALES_REP S ON C.REP_ID = S.REP_ID
+ORDER BY S.REP_ID, C.CUST_ID;
+
+┌────────┬───────────┬──────────┬─────────┬────────────────┬───────────────┐
+│ REP_ID │ REP_FIRST │ REP_LAST │ CUST_ID │ CUSTOMER_FIRST │ CUSTOMER_LAST │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 05     │ Susan     │ Garcia   │ 125     │ Joey           │ Smith         │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 05     │ Susan     │ Garcia   │ 375     │ Melanie        │ Jackson       │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 05     │ Susan     │ Garcia   │ 543     │ Angie          │ Hendricks     │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 05     │ Susan     │ Garcia   │ 795     │ Randy          │ Blacksmith    │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 10     │ Richard   │ Miller   │ 182     │ Billy          │ Rufton        │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 10     │ Richard   │ Miller   │ 294     │ Samantha       │ Smith         │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 10     │ Richard   │ Miller   │ 492     │ Elmer          │ Jackson       │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 10     │ Richard   │ Miller   │ 721     │ Leslie         │ Smith         │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 15     │ Donna     │ Smith    │ 227     │ Sandra         │ Pincher       │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 15     │ Donna     │ Smith    │ 314     │ Tom            │ Rascal        │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 15     │ Donna     │ Smith    │ 435     │ James          │ Gonzalez      │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 15     │ Donna     │ Smith    │ 616     │ Sally          │ Cruz          │
+├────────┼───────────┼──────────┼─────────┼────────────────┼───────────────┤
+│ 20     │ Daniel    │ Jackson  │ NULL    │ NULL           │ NULL          │
+└────────┴───────────┴──────────┴─────────┴────────────────┴───────────────┘
+
