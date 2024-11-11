@@ -1,0 +1,3 @@
+UPDATE NONCAT
+SET DESCRIPTION = 'Dog Toy Gift Bonanza'
+WHERE ITEM_ID = 'DT12';
