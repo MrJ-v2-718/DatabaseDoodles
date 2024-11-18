@@ -1,0 +1,8 @@
+INSERT INTO LARGE_PROPERTY VALUES (
+	1,
+	'2643 Lugsi Dr.',
+	3,
+	2,
+	775,
+	'MA111'
+);
